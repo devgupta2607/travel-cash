@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'sign_in.dart';
 import 'register.dart';
+import 'qr_scanner.dart';
 
 
 void main() => runApp(MyApp());
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/register": (BuildContext context) => Register(),
         "/login": (BuildContext context) => Login(),
+        "/scan" : (BuildContext context) => QRcode(),
       },
       home: MainScreen(),
     );
@@ -110,6 +112,29 @@ class MainScreen extends StatelessWidget{
                       
                       child: Text(
                         'Register',
+                        style: TextStyle(
+                          color: Color(0xFF351C75),
+                          ),
+                      ),
+                      
+                    ),
+                  ),
+                ],
+                ),
+                Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ButtonTheme(
+                    minWidth: 100.0,
+                    child: RaisedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/scan");
+                      },
+                      shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                      color: Colors.white,
+                      
+                      child: Text(
+                        'QR Code Scan',
                         style: TextStyle(
                           color: Color(0xFF351C75),
                           ),
