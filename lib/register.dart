@@ -15,7 +15,7 @@ class Register extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,       
               children: <Widget>[
                 Container(
-                  child: Image.asset('images/photo.jpg'),
+                  child: Image.asset('images/logo.png'),
                   width: 100.0,
                   height: 100.0,
                 ),
