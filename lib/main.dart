@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'sign_in.dart';
 import 'register.dart';
 import 'qr_scanner.dart';
-
+import 'scratch_card.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
         "/register": (BuildContext context) => Register(),
         "/login": (BuildContext context) => Login(),
         "/scan" : (BuildContext context) => QRcode(),
+        "/scratch" : (BuildContext context) => Scratch(),
       },
       home: MainScreen(),
     );
@@ -135,6 +136,25 @@ class MainScreen extends StatelessWidget{
                       
                       child: Text(
                         'QR Code Scan',
+                        style: TextStyle(
+                          color: Color(0xFF351C75),
+                          ),
+                      ),
+                      
+                    ),
+                  ),
+                  SizedBox(width: 10.0,),
+                  ButtonTheme(
+                    minWidth: 100.0,
+                    child: RaisedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/scratch");
+                      },
+                      shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                      color: Colors.white,
+                      
+                      child: Text(
+                        'Scratch Card',
                         style: TextStyle(
                           color: Color(0xFF351C75),
                           ),
