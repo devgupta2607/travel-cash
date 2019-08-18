@@ -1,12 +1,62 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'sign_in.dart';
 import 'register.dart';
 import 'qr_scanner.dart';
 import 'scratch_card.dart';
+import 'intro_slider1.dart';
+
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+@override
+Widget build(BuildContext context) {
+    return new MaterialApp(
+    color: Colors.blue,
+    home: new Splash(),
+    );
+}
+}
+
+
+class Splash extends StatefulWidget {
+  @override
+  _SplashState createState() => _SplashState();
+}
+
+class _SplashState extends State<Splash> { 
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+  Future checkFirstSeen() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      bool _seen = (prefs.getBool('seen') ?? false);
+
+      if (_seen) {
+      Navigator.of(context).pushReplacement(
+          new MaterialPageRoute(builder: (context) => HomeScreen()));
+      } else {
+      prefs.setBool('seen', true);
+      Navigator.of(context).pushReplacement(
+          new MaterialPageRoute(builder: (context) => Introapp()));
+      }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    new Timer(new Duration(milliseconds: 200), () {
+    checkFirstSeen();
+    });
+}
+
+}
+
+
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
