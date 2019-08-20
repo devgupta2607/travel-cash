@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../util/user.dart';
 
-class Login extends StatelessWidget {
+class Register extends StatefulWidget {
+  @override
+  _RegisterState createState() => _RegisterState();
+}
+
+class _RegisterState extends State<Register> {
+  final user = new User();
+  final nameController = TextEditingController();
+  final ageController = TextEditingController();
+  final genderController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,7 +46,7 @@ class Login extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       Text(
-                        'Hello',
+                        'Create Account',
                         style: TextStyle(
                           fontFamily: 'Roboto',
                           fontSize: 30.0,
@@ -42,20 +54,38 @@ class Login extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        'Sign into your Account',
-                        style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 20.0,
-                          color: Color(0xFF351C75),
-                          fontWeight: FontWeight.bold,
+            
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Name*',
+                          suffixIcon: Icon(Icons.person),
                         ),
+                        controller: nameController,
                       ),
+
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Age*',
+                          suffixIcon: Icon(FontAwesomeIcons.birthdayCake),
+                        ),
+                        controller: ageController,
+                        keyboardType: TextInputType.number,
+                      ),
+
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Gender*',
+                          suffixIcon: Icon(FontAwesomeIcons.venusMars),
+                        ),
+                        controller: genderController,
+                      ),
+                      
                       TextFormField(
                         decoration: const InputDecoration(
                           labelText: 'Email ID*',
                           suffixIcon: Icon(Icons.email),
                         ),
+                        controller: emailController,
                       ),
                       TextFormField(
                         obscureText: true,
@@ -63,36 +93,32 @@ class Login extends StatelessWidget {
                           labelText: 'Password*',
                           suffixIcon: Icon(FontAwesomeIcons.eyeSlash),
                         ),
+                        controller: passwordController,
                       ),
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 5.0),
-                        margin: EdgeInsets.only(bottom: 20.0),
-                        child: Text(
-                          'Forgot Password ?',
-                          textAlign: TextAlign.left,
-                          
-                          style: TextStyle(
-                            fontSize: 10.0, 
-                            color: Colors.grey,
-                            ),
-                        ),
-                      ),
+                      SizedBox(height: 10.0,),
                       ButtonTheme(
                         minWidth: 300.0,
                         child: RaisedButton(
-                          onPressed: () {},
+                          onPressed: () async{
+                            Map<String,dynamic> data = await user.register(emailController.text,passwordController.text,nameController.text,genderController.text,int.parse(ageController.text));
+                            if (data["success"] == true) {
+                                // Dashboard
+                            } else {
+                              // refresh login screen
+                            }
+                          },
                           shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                           color: Color(0xFF351C75),
                           
                           child: Text(
-                            'Login',
+                            'Register',
                             style: TextStyle(
                               color: Colors.white,
                               ),
                           ),
                           
                           ),
-                      )
+                      ),
 
                     ],
                     ),
