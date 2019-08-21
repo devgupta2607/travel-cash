@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'login.dart';
 import 'register.dart';
 import '../components/googy.dart';
+import '../slides/profile.dart';
+
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -9,13 +11,21 @@ class HomeScreen extends StatelessWidget {
       routes: {
         "/register": (BuildContext context) => Register(),
         "/login": (BuildContext context) => Login(),
+        "/profile": (BuildContext context) => Profile(),
       },
       home: MainScreen(),
     );
   }
 }
 
-class MainScreen extends StatelessWidget{
+class MainScreen extends StatefulWidget{
+  @override
+  _MainScreenState createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+
+
     @override 
     Widget build(BuildContext context){
       return Scaffold(

@@ -1,6 +1,8 @@
+//import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../util/user.dart';
+import '../slides/profile.dart';
 
 
 class Login extends StatefulWidget {
@@ -9,12 +11,12 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final user = new User();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {"/profile": (BuildContext context) => Profile()},
       home: Scaffold(
         
         backgroundColor: Color(0xFF351C75),
@@ -93,9 +95,9 @@ class _LoginState extends State<Login> {
                         minWidth: 300.0,
                         child: RaisedButton(
                           onPressed: () async{
-                            Map<String,dynamic> data = await user.login(emailController.text,passwordController.text);
+                            Map<String,dynamic> data = await userObject.login(emailController.text,passwordController.text);
                             if (data["success"] == true) {
-                                // Dashboard
+                                Navigator.pushNamed(context, "/profile");
                             } else {
                               // refresh login screen
                             }
@@ -105,6 +107,29 @@ class _LoginState extends State<Login> {
                           
                           child: Text(
                             'Login',
+                            style: TextStyle(
+                              color: Colors.white,
+                              ),
+                          ),
+                          
+                          ),
+                      ),
+                      ButtonTheme(
+                        minWidth: 300.0,
+                        child: RaisedButton(
+                          onPressed: () async{
+                            Map<String,dynamic> data = await userObject.logout();
+                            if (data["success"] == true) {
+                                Navigator.pushNamed(context, "/login");
+                            } else {
+                              // refresh login screen
+                            }
+                          },
+                          shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                          color: Color(0xFF351C75),
+                          
+                          child: Text(
+                            'Logout',
                             style: TextStyle(
                               color: Colors.white,
                               ),

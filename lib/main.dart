@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './slides/intro_slider.dart';
+//import './slides/profile.dart';
 
 void main() => runApp(MyApp());
 

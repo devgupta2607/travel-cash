@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../util/user.dart';
+import '../slides/login.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -8,7 +9,6 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  final user = new User();
   final nameController = TextEditingController();
   final ageController = TextEditingController();
   final genderController = TextEditingController();
@@ -17,6 +17,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {"/login": (BuildContext context) => Login()},
       home: Scaffold(
         
         backgroundColor: Color(0xFF351C75),
@@ -100,9 +101,9 @@ class _RegisterState extends State<Register> {
                         minWidth: 300.0,
                         child: RaisedButton(
                           onPressed: () async{
-                            Map<String,dynamic> data = await user.register(emailController.text,passwordController.text,nameController.text,genderController.text,int.parse(ageController.text));
+                            Map<String,dynamic> data = await userObject.register(emailController.text,passwordController.text,nameController.text,genderController.text,int.parse(ageController.text));
                             if (data["success"] == true) {
-                                // Dashboard
+                                Navigator.pushNamed(context, '/login');
                             } else {
                               // refresh login screen
                             }
