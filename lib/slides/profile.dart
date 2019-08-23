@@ -48,9 +48,11 @@ class _MainProfileState extends State<MainProfile> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  width: 30.0,
+                  width: 50.0,
+                  height: 50.0,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: new BorderRadius.circular(20),
@@ -75,8 +77,8 @@ class _MainProfileState extends State<MainProfile> {
                         children: <Widget>[
                           Image.asset(
                             'images/logo.png',
-                            width: 6.0,
-                            height: 4.0,
+                            width: 10.0,
+                            height: 8.0,
                           ),
                           Text(
                             '50',
@@ -90,6 +92,19 @@ class _MainProfileState extends State<MainProfile> {
                   ),
                 ),
                 Container(
+                  width: 50.0,
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: new BorderRadius.circular(20),
+                    boxShadow: [
+                      new BoxShadow(
+                        color: Colors.black38,
+                        blurRadius: 20.0,
+                        offset: Offset(0, 10)
+                      )
+                    ]
+                  ),
                   child: Column(
                     children: <Widget>[
                       Text(
