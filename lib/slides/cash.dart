@@ -22,7 +22,19 @@ class _DisplaycashState extends State<Displaycash> {
     final appState = Provider.of<AppState>(context);
     return Scaffold(
       body: Center(
-        child: Text('Cash Earned is ${appState.distance ~/ 1000} '),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image.asset(
+              'images/tc_logo.png',
+              width: 100.0,
+              height: 100.0,
+            ),
+            SizedBox(height: 10.0,),
+            Text('${appState.distance ~/ 1000} Travel Cash Earned 🎉',
+            style: TextStyle(fontSize: 20.0),),
+          ],
+        ),
         ),
       
     );

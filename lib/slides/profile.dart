@@ -88,13 +88,10 @@ class _MainProfileState extends State<MainProfile> {
 
         historyWidget = Expanded(
           child: ListView.builder(
-            itemCount: history.length + 1,
+            itemCount: history.length,
               itemBuilder: (BuildContext ctxt, int index) {
-                if (index == history.length){
-                  return CircularProgressIndicator();
-                }
                 return Container(
-                  height: 400.0,
+                  height: 40.0,
                   child: ListTile(
                       title: Text('${history[index]["start"]} to ${history[index]["end"]}'),
                       trailing: Text('Cash earned: ${history[index]["cash"]}'),
@@ -220,11 +217,17 @@ class _MainProfileState extends State<MainProfile> {
               ],
               ),
               SizedBox(height: 10.0),
-              Text('Travel History',
-              style: TextStyle(
-                fontFamily: 'Roboto-Thin',
-                fontWeight: FontWeight.w200,
-                fontSize: 30.0,
+              Container(
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.only(left: 10.0),
+                child: Text('Travel History',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  
+                  fontFamily: 'Roboto-Thin',
+                  fontWeight: FontWeight.w200,
+                  fontSize: 25.0,
+                  ),
                 ),
               ),
               historyWidget,
