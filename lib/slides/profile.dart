@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '../util/user.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import './homescreen.dart';
+import 'main_map.dart';
 
 class Profile extends StatelessWidget {
   @override
@@ -16,6 +19,7 @@ class MainProfile extends StatefulWidget {
 }
 
 class _MainProfileState extends State<MainProfile> {
+  bool showBottom = false;
   @override
   void initState() {
     super.initState();
@@ -38,7 +42,7 @@ class _MainProfileState extends State<MainProfile> {
                     CircularProgressIndicator(),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 30),
-                      child: Text("Creating account", 
+                      child: Text("Setting up account", 
                         style: TextStyle(
                           fontSize: 20,
                           fontFamily: 'Roboto-Thin',
@@ -50,7 +54,39 @@ class _MainProfileState extends State<MainProfile> {
             )
           );
         }
+      
+      Widget historyWidget;
+      final List<dynamic> history = snapshot.data["user"]["history"];
+      if (history.length == 0){
+         historyWidget = Container(
+           width: double.infinity,
+           height: 350.0,
+          margin: EdgeInsets.symmetric(horizontal: .0),
+           child: Center(
+             child: Column(
+               mainAxisAlignment: MainAxisAlignment.center,
+               children: <Widget>[
+                 Text('No history available.',
+                  style: TextStyle(
+                 fontFamily: 'Roboto-Light',
+                 fontSize: 20.0,
+                 ),
+                ),
+                SizedBox(height: 10.0),
+                Text(
+                  'Click on the below button to start your journey',
+                  style: TextStyle(
+                    fontFamily: 'Roboto-Light',
+                    color: Colors.grey.shade700,
+                  ),
+                )
+               ],
+             ),
+           ),
+         );
+      } else {
 
+      }
         return Scaffold(
       body: SafeArea(
               child: Column(
@@ -96,27 +132,34 @@ class _MainProfileState extends State<MainProfile> {
                           fontFamily: 'Roboto-Light',
                           ),
                       ),
-                      Row(
-                        children: <Widget>[
-                          Image.asset(
-                            'images/logo.png',
-                            width: 50.0,
-                            height: 50.0,
-                          ),
-                          Text(
-                            '50',
-                            style: TextStyle(
-                              color: Colors.yellow,
-                              fontSize: 15.0,
-                          ),
-                          )
-                      ],)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Image.asset(
+                              'images/tc_logo.png',
+                              width: 30.0,
+                              height: 30.0,
+                            ),
+                            SizedBox(width: 10.0,),
+                            Text(
+                              '${snapshot.data["user"]["cash"]}',
+                              style: TextStyle(
+                                color: Colors.yellow,
+                                fontSize: 15.0,
+                            ),
+                            )
+                        ],),
+                      )
                     ],
                   ),
                 ),
                 Container(
+                  padding: EdgeInsets.all(10.0),
                   width: 150.0,
                   height: 150.0,
+                  
                   decoration: BoxDecoration(
                     color: Colors.blueGrey.shade700,
                     borderRadius: new BorderRadius.circular(20),
@@ -129,29 +172,118 @@ class _MainProfileState extends State<MainProfile> {
                     ]
                   ),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'Your Coupons',
+                        'Coupons',
                         style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 15.0,
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontFamily: 'Roboto-Light',
                           ),
                       ),
-                      Text(
-                        '5',
-                        style: TextStyle(
-                          color: Colors.yellow,
-                          fontSize: 15.0,
-                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              '5',
+                              style: TextStyle(
+                                color: Colors.yellow,
+                                fontSize: 15.0,
+                            ),
+                            ),
+                          ],
+                        ),
                       )
                     ],
                   ),
                 ),
               ],
-              )
+              ),
+              historyWidget,
           ],
           ),
-      )
+      ),
+      bottomNavigationBar: Builder(
+        builder: (cxt){
+          return BottomAppBar(
+        
+            color: Colors.white,
+            elevation: 5.0,
+            shape: AutomaticNotchedShape(
+            RoundedRectangleBorder(),
+            StadiumBorder(side: BorderSide())
+            ),
+    
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+        SizedBox(height:50.0),
+        IconButton(
+          icon: Icon(Icons.menu),
+          onPressed: () {
+                showBottomSheet(
+                  context: cxt,
+                  builder: (context) => Container(
+                    color: Colors.white,
+                    height: showBottom?100.0: 0.0,
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: 50.0),
+                        Container(
+                          height: 40.0,
+                          child: OutlineButton(onPressed: (){
+                            userObject.logout();
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomeScreen(),
+                              ),
+                          );
+                          
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: Text('Logout',
+                              style: TextStyle(fontFamily: 'Roboto-Light',
+                    color: Colors.grey.shade700,)),),
+                          
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+                showBottom = !showBottom;
+  
+              
+          },
+        )
+        ],
+        ),
+    ),
+      );
+        },
+      ),
+      
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MainMap(),
+            ),
+        );
+        },
+        label: Text('Start Journey'),
+        icon: Icon(FontAwesomeIcons.locationArrow),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      
     );
       }
     );

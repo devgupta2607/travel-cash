@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 //import './slides/maps.dart';
 import './slides/intro_slider.dart';
 //import './slides/profile.dart';
+import 'package:provider/provider.dart';
+import 'package:travel_cash/states/app_state.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  return runApp(MultiProvider(providers: [
+      ChangeNotifierProvider.value(value: AppState(),)
+  ],
+  child: MyApp(),));
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

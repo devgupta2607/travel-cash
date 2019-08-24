@@ -26,8 +26,8 @@ class _BackgroundState extends State<Background> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        Positioned(child: Image.asset('images/back.png'), width: 500, height: 500*0.8, bottom: 80, left: MediaQuery.of(context).size.width/2 - 25),
         Positioned(child: Image.asset('images/back1.png'), width: animation.value, height: animation.value*0.8, bottom: 60, left: MediaQuery.of(context).size.width/2 - 20),
+        Positioned(child: Image.asset('images/back.png'), width: 500, height: 500*0.8, bottom: 80, left: MediaQuery.of(context).size.width/2 - 25),
       ],
     );
   }
