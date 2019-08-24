@@ -86,6 +86,23 @@ class _MainProfileState extends State<MainProfile> {
          );
       } else {
 
+        historyWidget = Expanded(
+          child: ListView.builder(
+            itemCount: history.length + 1,
+              itemBuilder: (BuildContext ctxt, int index) {
+                if (index == history.length){
+                  return CircularProgressIndicator();
+                }
+                return Container(
+                  height: 400.0,
+                  child: ListTile(
+                      title: Text('${history[index]["start"]} to ${history[index]["end"]}'),
+                      trailing: Text('Cash earned: ${history[index]["cash"]}'),
+                  ),
+                );
+              },
+          ),
+        );
       }
         return Scaffold(
       body: SafeArea(
@@ -201,6 +218,14 @@ class _MainProfileState extends State<MainProfile> {
                   ),
                 ),
               ],
+              ),
+              SizedBox(height: 10.0),
+              Text('Travel History',
+              style: TextStyle(
+                fontFamily: 'Roboto-Thin',
+                fontWeight: FontWeight.w200,
+                fontSize: 30.0,
+                ),
               ),
               historyWidget,
           ],

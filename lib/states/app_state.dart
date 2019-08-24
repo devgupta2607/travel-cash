@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:travel_cash/requests/google_maps_requests.dart';
+import 'package:http/http.dart';
+
+Future<Map<String, dynamic>> getDistance(LatLng start, LatLng end) async {
+    Response response = await get("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${start.latitude},${start.longitude}&destinations=${end.latitude},${end.longitude}&key=AIzaSyBhDflq5iJrXIcKpeq0IzLQPQpOboX91lY");
+    return {
+      "distance": json.decode(response.body)["rows"][0]["elements"][0]["distance"]["value"],
+      "time": json.decode(response.body)["rows"][0]["elements"][0]["duration"]["value"]
+    };
+  }
 
 class AppState with ChangeNotifier {
   static LatLng _initialPosition;
   LatLng _lastPosition = _initialPosition;
-  final Set<Marker> _markers = {};
-  final Set<Polyline> _polyLines = {};
+  Set<Marker> _markers = {};
+  Set<Polyline> _polyLines = {};
   GoogleMapController _mapController;
   GoogleMapsServices _googleMapsServices = GoogleMapsServices();
   TextEditingController locationController = TextEditingController();
@@ -19,6 +29,8 @@ class AppState with ChangeNotifier {
   GoogleMapController get mapController => _mapController;
   Set<Marker> get markers => _markers;
   Set<Polyline> get polyLines => _polyLines;
+  num distance = 0;
+  num time = 0;
 
   AppState() {
     _getUserLocation();
@@ -37,21 +49,21 @@ class AppState with ChangeNotifier {
 
   // ! TO CREATE ROUTE
   void createRoute(String encondedPoly) {
-    _polyLines.add(Polyline(
+    _polyLines= {Polyline(
         polylineId: PolylineId(_lastPosition.toString()),
-        width: 10,
+        width: 2,
         points: _convertToLatLng(_decodePoly(encondedPoly)),
-        color: Colors.black));
+        color: Colors.black)};
     notifyListeners();
   }
 
   // ! ADD A MARKER ON THE MAO
   void _addMarker(LatLng location, String address) {
-    _markers.add(Marker(
+    _markers = {Marker(
         markerId: MarkerId(_lastPosition.toString()),
         position: location,
         infoWindow: InfoWindow(title: address, snippet: "go here"),
-        icon: BitmapDescriptor.defaultMarker));
+        icon: BitmapDescriptor.defaultMarker)};
     notifyListeners();
   }
 
@@ -111,6 +123,9 @@ class AppState with ChangeNotifier {
     _addMarker(destination, intendedLocation);
     String route = await _googleMapsServices.getRouteCoordinates(
         _initialPosition, destination);
+    Map<String,dynamic> distime = await getDistance(_initialPosition, destination);
+    distance = distime["distance"];
+    time = distime["time"];
     createRoute(route);
     notifyListeners();
   }

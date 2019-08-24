@@ -10,11 +10,11 @@ class MainMap extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'uber clone',
+      title: 'Start Journey',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Uber clone'),
+      home: MyHomePage(title: 'Start Journey'),
     );
   }
 }

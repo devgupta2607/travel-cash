@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:location/location.dart';
 
 class User {
   final String endpoint = "https://travel-cash.herokuapp.com/user";
@@ -35,6 +36,14 @@ class User {
     Response response = await get(endpoint + "/endtravel", headers: headers);
     updateCookie(response);
     return json.decode(response.body);
+  }
+       
+  Future getDistance(LocationData start, LocationData end) async {
+    Response response = await get("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${start.latitude},${start.longitude}&destinations=${end.latitude},${end.longitude}&key=AIzaSyBhDflq5iJrXIcKpeq0IzLQPQpOboX91lY");
+    return {
+      "distance": json.decode(response.body).rows.elements.distance.value,
+      "time": json.decode(response.body).rows.elements.time.value
+    };
   }
 
   Future logout() async {
